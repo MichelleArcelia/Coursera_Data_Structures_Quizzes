@@ -26,6 +26,7 @@ public class BuildHeap {
     	
         int n = in.nextInt();
         data = new int[n];
+        
         for (int i = 0; i < n; ++i) {
           data[i] = in.nextInt();
         }
@@ -80,15 +81,45 @@ public class BuildHeap {
     	
     	for(int i = data.length/2; i >= 0; i--) {
     		
-    		
+    		swapThrough(i);
     	}
     }
     
     
+//------------------NEW CODE - SWAP THROUGH------------------ 
     
     
-    
-    
+    private void swapThrough(int i) {
+    	
+		int minIndex = i;
+		
+		int l = 2*i + 1;
+		
+		if(l < data.length && data[l] < data[minIndex])
+			
+			minIndex = l;
+		
+		int r = 2*i + 2;
+		
+		if(r < data.length && data[r] < data[minIndex])
+			
+			minIndex = r;
+		
+		if(i != minIndex) {
+			
+			swaps.add(new Swap(i, minIndex));
+			
+			int tmp = data[i];
+			
+            data[i] = data[minIndex];
+            
+            data[minIndex] = tmp;
+            
+            swapThrough(minIndex);
+		}
+	}
+
+  
     
 //-------------------SOLVE--------------------    
     
@@ -96,8 +127,13 @@ public class BuildHeap {
         in = new FastScanner();
         out = new PrintWriter(new BufferedOutputStream(System.out));
         readData();
-        generateSwaps();
+        
+        //generateSwaps();
+        
+        efficientSwap(); 
+        
         writeResponse();
+        
         out.close();
     }
 
